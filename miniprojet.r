@@ -1,7 +1,7 @@
 # ======================
 # 1. INSTALLATION ET CHARGEMENT DES LIBRAIRIES
 # ======================
-install.packages(c("tidyverse", "tm", "wordcloud", "tidytext", "ggplot2", "caret", "glmnet", "text2vec"))
+# install.packages(c("tidyverse", "tm", "wordcloud", "tidytext", "ggplot2", "caret", "glmnet", "text2vec"))
 library(tidyverse)
 library(tm)
 library(wordcloud)
@@ -15,7 +15,7 @@ library(text2vec)
 # 2. CHARGEMENT DES DONNÉES
 # ===========================
 # Charger le dataset (remplacer par votre chemin)
-df <- read_csv("IMDB Dataset.csv")
+df <- read_csv("/home/ando/Documents/doc/IS INFO/text mining/projet_TM/Text-Mining-Memo/IMDB Dataset.csv")
 
 # Afficher les premières lignes
 glimpse(df)
@@ -46,9 +46,9 @@ generate_wordcloud <- function(text, title) {
   corpus <- tm_map(corpus, removePunctuation)
   corpus <- tm_map(corpus, removeNumbers)
   corpus <- tm_map(corpus, removeWords, stopwords("english"))
-  
-  wordcloud(corpus, 
-            max.words = 100, 
+
+  wordcloud(corpus,
+            max.words = 100,
             random.order = FALSE,
             colors = brewer.pal(8, "Dark2"),
             main = title)
@@ -155,8 +155,8 @@ tfidf <- Tfidf$new()
 dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
 
 # Entraînement du modèle (Régression logistique avec régularisation)
-model <- cv.glmnet(dtm_train_tfidf, 
-                   train_data$label, 
+model <- cv.glmnet(dtm_train_tfidf,
+                   train_data$label,
                    family = "binomial",
                    type.measure = "auc",
                    nfolds = 5)
@@ -183,20 +183,20 @@ confusionMatrix(factor(predicted_classes), factor(test_data$label))
 # ===================================
 predict_sentiment <- function(text) {
   cleaned_text <- clean_text(text)
-  
+
   # Tokenisation et stemming
   tokens <- word_tokenizer(tolower(cleaned_text))
   tokens <- lapply(tokens, SnowballC::wordStem)
   processed_text <- paste(unlist(tokens), collapse = " ")
-  
+
   # Vectorisation
-  it_new <- itoken(processed_text, 
+  it_new <- itoken(processed_text,
                    preprocessor = prep_fun,
                    tokenizer = tok_fun,
                    progressbar = FALSE)
   dtm_new <- create_dtm(it_new, vectorizer)
   dtm_new_tfidf <- transform(dtm_new, tfidf)
-  
+
   # Prédiction
   prediction <- predict(model, dtm_new_tfidf, type = "response", s = "lambda.min")
   ifelse(prediction > 0.5, "POSITIVE", "NEGATIVE")
