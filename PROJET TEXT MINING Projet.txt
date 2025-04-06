@@ -1,0 +1,31 @@
+En python : pip install pandas numpy matplotlib seaborn wordcloud nltk scikit-learn beautifulsoup4
+En R :
+
+
+PROJET TEXT MINING
+Projet : Analyse de commentaires de films
+PLAN :
+1. L'analyse exploratoire des données
+ Lecture du Jeu de Données
+ Visualisation des mots-clés positifs et négatifs des critiques de films et des nuages de mots
+ Les 25 meilleurs mots pour exprimer des sentiments positifs et négatifs
+2. Nettoyage et prétraitement des données
+ Minuscules
+ Supprimer les balises HTML
+ Supprimer les ponctuations
+Supprimer les StopWords
+3. Décoder les critiques de films : ce que les mots et les expressions révèlent sur les critiques
+ Trigrammes Courants dans les Critiques Positives
+ 5-Grammes Courants dans les Critiques Positives
+ Trigrammes Courants dans les Critiques Negatives
+ 5-Grammes Courants dans les Critiques Negatives
+4. Partition en corpus d’apprentissage et de test
+ Un vectoriseur TF-IDF
+ Fréquence des termes
+5. Modélisation à l’aide de la régression logistique
+ Logisitic regression
+ Amélioreration de model avec STEMMER
+ Amélioration de model avec Lemmatizer
+5. Interprétation des résultats – Influence des termes dans le modèle
+6. Déploiement du modèle en testant deux nouvelles critiques
+
